@@ -377,7 +377,70 @@ information, and how they handle different R functions.</p>
 may be a learning curve. Along with making sure that the structure in
 both files is done correctly may be a challenge as well. Another
 challenge will be trying to spot any difference they may have when
-analyzing in R.</p>
+analyzing in R.0</p>
+</div>
+<div id="reading-in-html-json" class="section level3">
+<h3>Reading in HTML &amp; Json</h3>
+<pre class="r"><code>library(jsonlite)</code></pre>
+<pre><code>## Warning: package &#39;jsonlite&#39; was built under R version 4.4.3</code></pre>
+<pre class="r"><code>library(rvest)</code></pre>
+<pre><code>## Warning: package &#39;rvest&#39; was built under R version 4.4.3</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;forcats&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## Warning: package &#39;lubridate&#39; was built under R version 4.4.3</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.6
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.1     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter()         masks stats::filter()
+## ✖ purrr::flatten()        masks jsonlite::flatten()
+## ✖ readr::guess_encoding() masks rvest::guess_encoding()
+## ✖ dplyr::lag()            masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>Bookhtml &lt;- read_html(&quot;C:/Users/typem/Documents/GitHub/Data607_HTML_JSON/books.html&quot;)
+
+htmldf &lt;- html_table(Bookhtml)[[1]]</code></pre>
+<pre class="r"><code>BookJson &lt;- fromJSON(&quot;C:/Users/typem/Documents/GitHub/Data607_HTML_JSON/books.json&quot;)
+
+JsonDF &lt;- as.data.frame(BookJson$rows)
+colnames(JsonDF) &lt;-BookJson$columns</code></pre>
+<pre class="r"><code>dim(htmldf)</code></pre>
+<pre><code>## [1] 3 5</code></pre>
+<pre class="r"><code>dim(JsonDF)</code></pre>
+<pre><code>## [1] 3 5</code></pre>
+<p>They have the same dimension.</p>
+<pre class="r"><code>htmldf</code></pre>
+<pre><code>## # A tibble: 3 × 5
+##     `#` Title                                           `Author(s)`  Year Rating
+##   &lt;int&gt; &lt;chr&gt;                                           &lt;chr&gt;       &lt;int&gt;  &lt;dbl&gt;
+## 1     1 Fooled by Randomness: The Hidden Role of Chanc… Nassim Nic…  2001   4.08
+## 2     2 The Drunkard&#39;s Walk: How Randomness Rules Our … Leonard Ml…  2008   3.95
+## 3     3 Probability Theory: The Logic of Science        E.T. Jayne…  2003   4.41</code></pre>
+<pre class="r"><code>JsonDF</code></pre>
+<pre><code>##   #                                                                      Title
+## 1 1 Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets
+## 2 2                        The Drunkard&#39;s Walk: How Randomness Rules Our Lives
+## 3 3                                   Probability Theory: The Logic of Science
+##                          Author(s) Year Rating
+## 1            Nassim Nicholas Taleb 2001   4.08
+## 2                 Leonard Mlodinow 2008   3.95
+## 3 E.T. Jaynes, G. Larry Bretthorst 2003   4.41</code></pre>
+<p>Compare the two table side by side I notice that the numbering of the
+table are different types with the html being int and Json being
+character. The same thing follows for the year which is int compared to
+character and rating which is a double compared to character. Other than
+that the two table are essentially the same.</p>
 </div>
 
 

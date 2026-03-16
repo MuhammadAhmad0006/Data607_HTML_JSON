@@ -1,0 +1,8 @@
+{
+  "columns": ["#", "Title", "Author(s)", "Year", "Rating"],
+  "rows": [
+    [1, "Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets", "Nassim Nicholas Taleb", 2001, 4.08],
+    [2, "The Drunkard's Walk: How Randomness Rules Our Lives", "Leonard Mlodinow", 2008, 3.95],
+    [3, "Probability Theory: The Logic of Science", "E.T. Jaynes, G. Larry Bretthorst", 2003, 4.41]
+  ]
+}
