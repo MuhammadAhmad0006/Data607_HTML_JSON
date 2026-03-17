@@ -1,0 +1,141 @@
+---
+title: "Data607_HTML_JSON"
+author: "Muhammad Ahmad"
+format: html
+editor: visual
+---
+
+#### Approach
+
+I am highly considering my choice for topic of books to be about probability. It is my favorite subject in math and I believe I can find books with multiple authors unlike my initial choice of fantasy books. I love fantasy but they usually only have one author. I am going to finalize my choice of books Friday and start sorting the information I want from the books that I want to be in the HTML and Json files. I will then create the HTML and Json files manually making sure to create a table that the structure is correct and is handled properly in R. Then load both files into two separate data sets comparing the two data frames to see if they are identical. Compare their structure, stored information, and how they handle different R functions.
+
+#### Challenge
+
+This will be my first time making a table in HTML and Json so that may be a learning curve. Along with making sure that the structure in both files is done correctly may be a challenge as well. Another challenge will be trying to spot any difference they may have when analyzing in R.
+
+#### The files
+
+```{=html}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Book List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #333333;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background-color: white;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px;
+      border: 1px solid #dddddd;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>My Book List</h1>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Author(s)</th>
+      <th>Year</th>
+      <th>Rating</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets</td>
+      <td>Nassim Nicholas Taleb</td>
+      <td>2001</td>
+      <td>4.08</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>The Drunkard's Walk: How Randomness Rules Our Lives</td>
+      <td>Leonard Mlodinow</td>
+      <td>2008</td>
+      <td>3.95</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Probability Theory: The Logic of Science</td>
+      <td>E.T. Jaynes, G. Larry Bretthorst</td>
+      <td>2003</td>
+      <td>4.41</td>
+    </tr>
+  </table>
+
+</body>
+</html>
+```
+
+```json
+{
+  "columns": ["#", "Title", "Author(s)", "Year", "Rating"],
+  "rows": [
+    [1, "Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets", "Nassim Nicholas Taleb", 2001, 4.08],
+    [2, "The Drunkard's Walk: How Randomness Rules Our Lives", "Leonard Mlodinow", 2008, 3.95],
+    [3, "Probability Theory: The Logic of Science", "E.T. Jaynes, G. Larry Bretthorst", 2003, 4.41]
+  ]
+}
+```
+
+### Reading in HTML & Json
+
+```{r}
+library(jsonlite)
+library(rvest)
+library(tidyverse)
+```
+
+```{r}
+Bookhtml <- read_html("C:/Users/typem/Documents/GitHub/Data607_HTML_JSON/books.html")
+
+htmldf <- html_table(Bookhtml)[[1]]
+```
+
+```{r}
+BookJson <- fromJSON("C:/Users/typem/Documents/GitHub/Data607_HTML_JSON/books.json")
+
+JsonDF <- as.data.frame(BookJson$rows)
+colnames(JsonDF) <-BookJson$columns
+```
+
+```{r}
+dim(htmldf)
+dim(JsonDF)
+```
+
+They have the same dimension.
+
+```{r}
+htmldf
+JsonDF
+```
+
+Compare the two table side by side I notice that the numbering of the table are different types with the html being int and Json being character. The same thing follows for the year which is int compared to character and rating which is a double compared to character. Other than that the two table are essentially the same.
